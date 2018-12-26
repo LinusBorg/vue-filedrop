@@ -9354,9 +9354,9 @@ vue-loader@^15.4.2:
     vue-style-loader "^4.1.0"
 
 vue-reactive-provide@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/vue-reactive-provide/-/vue-reactive-provide-0.2.0.tgz#7737de72e3cbd3299643bffdced0f25da0792e81"
-  integrity sha512-oN75ghU6eg1vYxUMiR3UdWp9yaCrDtnKed1P8mP6L321LKhSVeOEJ/L3v8l89rI0jhc7Fvtc7LH2D0uSgL6DsA==
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vue-reactive-provide/-/vue-reactive-provide-0.2.1.tgz#ff7e20c408214e5a85f5358634ed0c6eb1097442"
+  integrity sha512-h4CDRMK2Td5i97vJgtgWXxGN59EKGq/uSA3zkZemtTV/YUP+qvVcCZp9PyLOOqhKcbVb//Sl/JBJgDFxYpsqMw==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"

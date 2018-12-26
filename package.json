@@ -13,7 +13,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "vue-reactive-provide": "^0.2.0"
+    "vue-reactive-provide": "^0.2.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
