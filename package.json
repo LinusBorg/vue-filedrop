@@ -8,7 +8,7 @@
   "scripts": {
     "serve": "vue-cli-service serve demo/main",
     "build": "vue-cli-service build demo/main",
-    "build:lib": "vue-cli-service build --target lib --name VueFileDrop",
+    "build:lib": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFileDrop",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -21,7 +21,7 @@
     "@vue/cli-plugin-unit-jest": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
     "@vue/eslint-config-prettier": "^4.0.0",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@vue/test-utils": "^1.0.0-beta.28",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",

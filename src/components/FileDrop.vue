@@ -35,7 +35,7 @@ const propsToProvide = ['files', 'hover', 'clear', 'open']
 
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
-  inheritAs: 'fileIploaderProps', // funktioniert noch nicht wenn der inject fehlt!
+  inheritAs: 'fileUploaderProps', // funktioniert noch nicht wenn der inject fehlt!
   nameForComputed: 'fileDropProps',
   props: true,
   include: propsToProvide,
@@ -45,10 +45,6 @@ export default Vue.extend({
   name: 'FileDrop',
   mixins: [Provide],
   props: {
-    internalInput: {
-      type: Boolean,
-      default: true,
-    },
     multiple: {
       type: Boolean,
       default: false,
@@ -57,6 +53,9 @@ export default Vue.extend({
       // TODO: implement error if exceeded
       type: Number,
       default: Infinity,
+    },
+    append: {
+      type: Boolean,
     },
     accept: {
       type: String,
