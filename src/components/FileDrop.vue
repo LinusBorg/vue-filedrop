@@ -4,22 +4,20 @@
     ref="wrapper"
     class="vue-filedrop-wrapper"
     :class="hoverClass"
-    @dragover.prevent
-    @drop.prevent="onFileDrop"
-    @dragenter.prevent="dragenter"
-    @dragleave.prevent="dragleave"
+    v-on="dragEvents"
     @click="open"
   >
     <input
       v-if="internalInput"
       class="vue-filedrop-input"
       type="file"
+      style="display: none"
       ref="input"
       :accept="accept"
       :multiple="multiple"
       :max="max"
-      :key="'vueFiledropInput_' + inputKey"
-      @change.prevent="onFileInputChange"
+      :key="`vueFiledropInput_${inputKey}`"
+      @change="onFileInputChange"
     />
 
     <slot v-bind="filedropProps" />
@@ -29,9 +27,9 @@
 <script>
 import Vue from 'vue'
 import { ReactiveProvideMixin } from 'vue-reactive-provde'
-import { processFiles, validateReadAs, PROVIDE_KEY } from '../utils'
+import { processFiles, validateReadAs, PROVIDE_KEY, pick } from '../utils'
 
-const propsToProvide = ['files', 'hover', 'clear', 'open']
+const propsToProvide = ['files', 'hover', 'clear', 'open', 'dragEvents']
 
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
@@ -88,6 +86,9 @@ export default Vue.extend({
     hasFiles() {
       return this.files.length
     },
+    dragEvents() {
+      return pick(this, ['dragover', 'dragenter', 'dragleave', 'drop'])
+    },
   },
 
   watch: {
@@ -98,11 +99,13 @@ export default Vue.extend({
       },
     },
   },
-
   methods: {
     /*
      * Setting `hover` reliably
      */
+    dragover(e) {
+      e.preventDefault()
+    },
     dragenter(e) {
       if (e.target === this.$refs.wrapper) {
         this.hover = true
@@ -123,7 +126,7 @@ export default Vue.extend({
       input && input.click()
     },
     clear() {
-      this.inputKey++
+      this.inputKey++ // forces re-creation of input to clear it on all browsers
       this.files = []
     },
     /*
@@ -154,29 +157,21 @@ export default Vue.extend({
       if (!this.processFiles) {
         this.files = files
       } else {
+        this.processingFiles = true
         processFiles(files)
           .then(processedFiles => {
             this.files = processedFiles
+            this.processingFiles = false
           })
           .catch(error => {
             console.error(
               '[vue-component-filedrop] An error occured while processing the file(s)',
               error
             )
+            this.processingFiles = false
           })
       }
     },
   },
 })
 </script>
-<style lang="scss">
-.vue-filedrop-wrapper {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.vue-filedrop-input {
-  display: none;
-}
-</style>

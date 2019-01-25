@@ -34,3 +34,10 @@ function readFile(file, readAs) {
     reader[`readAs${readAs}`](file)
   })
 }
+
+export function pick(object, keys = []) {
+  return Object.keys(keys).reduce((acc, key) => {
+    acc[key] = object[key]
+    return acc
+  }, {})
+}
