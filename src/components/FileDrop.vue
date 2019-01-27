@@ -23,18 +23,22 @@ import { processFiles, validateReadAs, PROVIDE_KEY, pick } from '../utils'
 import GlobalDragEventBus from '../utils/globalDragEventBus'
 
 const propsToProvide = [
+  // State
   'files',
   'hovering',
   'dragging',
-  'clear',
-  'open',
-  'remove',
+  // computed
   'dragEvents',
+  // Methods
+  'open',
+  'emit',
+  'remove',
+  'clear',
 ]
 
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
-  inheritAs: 'fileUploaderProps', // funktioniert noch nicht wenn der inject fehlt!
+  inheritAs: 'fileUploaderProps',
   nameForComputed: 'fileDropProps',
   props: true,
   include: propsToProvide,
@@ -59,6 +63,10 @@ export default Vue.extend({
     accept: {
       type: String,
       default: null,
+    },
+    lazy: {
+      type: Boolean,
+      default: false,
     },
     processFiles: {
       type: Boolean,
@@ -105,14 +113,18 @@ export default Vue.extend({
   beforeDestroy() {
     GlobalDragEventBus.$off('dragging', this.$_globalEventHandler)
   },
+
   watch: {
     files: {
       deep: true,
       handler(files) {
-        this.$emit('change', files)
+        if (!this.lazy) {
+          this.$emit('change', files)
+        }
       },
     },
   },
+
   methods: {
     /*
      * Setting `hovering` reliably
@@ -151,15 +163,23 @@ export default Vue.extend({
      */
     open() {
       const { input } = this.$refs
+      console.log('open', input)
       input && input.click()
     },
     clear() {
       console.log('clear')
       this.inputKey++ // forces re-creation of input to clear it on all browsers
-      this.files = []
+      this.$nextTick(() => {
+        this.files = []
+      })
     },
     remove(idx) {
-      this.files.splice(idx, 1)
+      this.$nextTick(() => {
+        this.files.splice(idx, 1)
+      })
+    },
+    emit() {
+      this.$emit('change', this.files)
     },
     /*
      * File Events Handling

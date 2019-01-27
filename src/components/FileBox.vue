@@ -32,10 +32,8 @@ export default {
   },
   methods: {
     open() {
-      this.$nextTick().then(() => {
-        const { hasFiles, open } = this.filedrop
-        !hasFiles && open()
-      })
+      const { files, open } = this.filedrop
+      !files.length && open()
     },
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ipreview">
     <FileDrop multiple processFiles readAs="DataURL">
       <div slot-scope="{ files, open, clear, dragEvents }" v-on="dragEvents">
         <ImagePreview v-if="files.length" />
@@ -19,6 +19,11 @@ export default {
 </script>
 
 <style scoped>
+.ipreview {
+  max-width: 550px;
+  min-height: 200px;
+  margin: 0 auto;
+}
 .file-list {
   list-style-type: none;
 }
