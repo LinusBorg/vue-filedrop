@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "sideeffects": [
-    "*.vue"
+    "*.css"
   ],
   "scripts": {
     "serve": "vue-cli-service serve demo/main",
     "build": "vue-cli-service build demo/main",
-    "build:lib": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFileDrop",
+    "build:lib:full": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFiledrop src/full.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

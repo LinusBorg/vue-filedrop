@@ -2,8 +2,8 @@
   <div
     class="vue-filedrop-box"
     v-on="filedrop.dragEvents"
-    @click="filedrop.open"
-    :class="hoverClass"
+    @click="open"
+    :class="classes"
   >
     <slot />
   </div>
@@ -20,8 +20,22 @@ export default {
     },
   },
   computed: {
+    classes() {
+      return [this.hoverClass, this.draggingClass]
+    },
     hoverClass() {
-      return this.filedrop.hover ? 'vue-filedrop-hover' : ''
+      return this.filedrop.hovering ? 'vue-filedrop-hover' : ''
+    },
+    draggingClass() {
+      return this.filedrop.dragging ? 'vue-filedrop-dragging' : ''
+    },
+  },
+  methods: {
+    open() {
+      this.$nextTick().then(() => {
+        const { hasFiles, open } = this.filedrop
+        !hasFiles && open()
+      })
     },
   },
 }
@@ -44,7 +58,12 @@ export default {
     cursor: pointer;
   }
 
-  .vue-filedrop-hover {
+  &.vue-filedrop-dragging {
+    border-style: dashed;
+    border-width: 3px;
+  }
+
+  &.vue-filedrop-hover {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
 }

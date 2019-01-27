@@ -20,10 +20,12 @@
 import Vue from 'vue'
 import { ReactiveProvideMixin } from 'vue-reactive-provide'
 import { processFiles, validateReadAs, PROVIDE_KEY, pick } from '../utils'
+import GlobalDragEventBus from '../utils/globalDragEventBus'
 
 const propsToProvide = [
   'files',
-  'hover',
+  'hovering',
+  'dragging',
   'clear',
   'open',
   'remove',
@@ -75,7 +77,8 @@ export default Vue.extend({
 
   data() {
     return {
-      hover: false,
+      hovering: false,
+      dragging: false,
       files: [],
       inputKey: 0,
     }
@@ -90,6 +93,18 @@ export default Vue.extend({
     },
   },
 
+  created() {
+    this.$_globalEventHandler = v => {
+      this.dragging = v
+      if (this.hovering) {
+        this.hovering = false
+      }
+    }
+    GlobalDragEventBus.$on('dragging', this.$_globalEventHandler)
+  },
+  beforeDestroy() {
+    GlobalDragEventBus.$off('dragging', this.$_globalEventHandler)
+  },
   watch: {
     files: {
       deep: true,
@@ -100,26 +115,37 @@ export default Vue.extend({
   },
   methods: {
     /*
-     * Setting `hover` reliably
+     * Setting `hovering` reliably
      */
-    drop(e) {
-      this.onFileDrop(e)
-    },
     dragover(e) {
       e.preventDefault()
     },
     dragenter(e) {
-      if (e.target === this.$refs.wrapper) {
-        this.hover = true
+      if (this.$_first) {
+        this.$_second = true
+      } else {
+        this.$_first = true
+        this.hovering = true
         this.$emit('dragenter', e)
       }
     },
     dragleave(e) {
-      if (e.target === this.$refs.wrapper) {
-        this.hover = false
-        this.$emit('dragleave', e)
+      if (this.$_second) {
+        this.$_second = false
+      } else if (this.$_first) {
+        this.$_first = false
+      }
+
+      if (!this.$_first && !this.$_second) {
+        this.hovering = false
+        this.$emit('dragenter', e)
       }
     },
+    drop(e) {
+      this.onFileDrop(e)
+      e.preventDefault()
+    },
+
     /*
      * Controlling the File Input
      */
@@ -143,7 +169,8 @@ export default Vue.extend({
     },
 
     onFileDrop(event) {
-      this.hover = false
+      this.hovering = false
+      this.dragging = false
       const files = event.dataTransfer.files
       const numDropped = files.length
       const numCached = this.files.length
@@ -187,3 +214,4 @@ export default Vue.extend({
   height: 100%;
 }
 </style>
+^

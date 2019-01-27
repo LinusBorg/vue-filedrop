@@ -42,6 +42,8 @@ export default Vue.extend({
   },
   methods: {
     handleFiles(files) {
+      if (!files.length) return
+
       this.files = files
       if (this.immediate) {
         this.upload()
