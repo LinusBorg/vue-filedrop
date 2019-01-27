@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueFiledrop from 'vue-filedrop'
+import VueFiledrop from '../src/full'
 
 Vue.use(VueFiledrop)
 

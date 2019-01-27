@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import FileDrop from './FileDrop'
-import { ReactiveProvideMixin } from 'vue-reactive-provde'
+import { ReactiveProvideMixin } from 'vue-reactive-provide'
 import { PROVIDE_KEY } from '../utils'
 
 const Provide = ReactiveProvideMixin({

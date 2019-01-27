@@ -26,7 +26,7 @@
 
 <script>
 import Vue from 'vue'
-import { ReactiveProvideMixin } from 'vue-reactive-provde'
+import { ReactiveProvideMixin } from 'vue-reactive-provide'
 import { processFiles, validateReadAs, PROVIDE_KEY, pick } from '../utils'
 
 const propsToProvide = ['files', 'hover', 'clear', 'open', 'dragEvents']
