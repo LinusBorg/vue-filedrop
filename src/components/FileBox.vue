@@ -1,5 +1,12 @@
 <template>
-  <div class="vue-filedrop-box" :class="hoverClass"><slot /></div>
+  <div
+    class="vue-filedrop-box"
+    v-on="filedrop.dragEvents"
+    @click="filedrop.open"
+    :class="hoverClass"
+  >
+    <slot />
+  </div>
 </template>
 
 <script>
@@ -21,22 +28,24 @@ export default {
 </script>
 
 <style lang="scss">
-.vue-filedrop-wrapper {
-  .vue-filedrop-box {
-    margin: 1rem;
-    width: 100%;
+.vue-filedrop-box {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 
-    display: flex;
-    justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 
-    &:hover {
-      cursor: pointer;
-    }
+  padding: 15px;
 
-    .vue-filedrop-hover {
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-        0 10px 10px rgba(0, 0, 0, 0.22);
-    }
+  &:hover {
+    cursor: pointer;
+  }
+
+  .vue-filedrop-hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
 }
 </style>

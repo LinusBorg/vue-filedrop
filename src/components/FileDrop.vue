@@ -181,3 +181,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.vue-filedrop-wrapper {
+  height: 100%;
+}
+</style>
