@@ -13,7 +13,7 @@ export function validateReadAs(v) {
 
 export function processFiles(files, readAs = 'BinaryString') {
   const promises = [...files].map(file => {
-    readFile(file, readAs)
+    return readFile(file, readAs)
   })
   return Promise.all(promises)
 }
@@ -22,21 +22,22 @@ function readFile(file, readAs) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 
-    reader.onerror(reject)
-    reader.onload(() => {
+    reader.onerror = reject
+    reader.onload = () => {
       resolve({
         name: file.name,
         size: file.size,
         type: file.type,
         data: reader.result,
       })
-    })
+    }
+
     reader[`readAs${readAs}`](file)
   })
 }
 
 export function pick(object, keys = []) {
-  return Object.keys(keys).reduce((acc, key) => {
+  return keys.reduce((acc, key) => {
     acc[key] = object[key]
     return acc
   }, {})

@@ -1,10 +1,8 @@
 <template>
   <div>
-    <FileDrop @change="handleFiles" multiple>
+    <FileDrop multiple processFiles readAs="DataURL">
       <div slot-scope="{ files, open, clear, dragEvents }" v-on="dragEvents">
-        <ul v-if="files.length" class="file-list">
-          <li v-for="file in files" :key="file.name">{{ file.name }}</li>
-        </ul>
+        <ImagePreview v-if="files.length" />
         <p v-else>No files so far. You can drop them here!</p>
         <br />
         <button @click="open">Open</button>
@@ -16,12 +14,7 @@
 
 <script>
 export default {
-  name: 'SimpleFileDropExample',
-  methods: {
-    handleFiles(files) {
-      window.alert(`We got ${files.length} files!`)
-    },
-  },
+  name: 'ImagePreviewExample',
 }
 </script>
 

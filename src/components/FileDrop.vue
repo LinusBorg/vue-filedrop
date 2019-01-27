@@ -1,14 +1,6 @@
 <template>
-  <div
-    :is="tag"
-    ref="wrapper"
-    class="vue-filedrop-wrapper"
-    :class="hoverClass"
-    v-on="dragEvents"
-    @click="open"
-  >
+  <div :is="tag" ref="wrapper" class="vue-filedrop-wrapper">
     <input
-      v-if="internalInput"
       class="vue-filedrop-input"
       type="file"
       style="display: none"
@@ -20,7 +12,7 @@
       @change="onFileInputChange"
     />
 
-    <slot v-bind="filedropProps" />
+    <slot v-bind="fileDropProps" />
   </div>
 </template>
 
@@ -29,7 +21,14 @@ import Vue from 'vue'
 import { ReactiveProvideMixin } from 'vue-reactive-provide'
 import { processFiles, validateReadAs, PROVIDE_KEY, pick } from '../utils'
 
-const propsToProvide = ['files', 'hover', 'clear', 'open', 'dragEvents']
+const propsToProvide = [
+  'files',
+  'hover',
+  'clear',
+  'open',
+  'remove',
+  'dragEvents',
+]
 
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
@@ -103,6 +102,9 @@ export default Vue.extend({
     /*
      * Setting `hover` reliably
      */
+    drop(e) {
+      this.onFileDrop(e)
+    },
     dragover(e) {
       e.preventDefault()
     },
@@ -126,8 +128,12 @@ export default Vue.extend({
       input && input.click()
     },
     clear() {
+      console.log('clear')
       this.inputKey++ // forces re-creation of input to clear it on all browsers
       this.files = []
+    },
+    remove(idx) {
+      this.files.splice(idx, 1)
     },
     /*
      * File Events Handling
@@ -158,7 +164,7 @@ export default Vue.extend({
         this.files = files
       } else {
         this.processingFiles = true
-        processFiles(files)
+        processFiles(files, this.readAs)
           .then(processedFiles => {
             this.files = processedFiles
             this.processingFiles = false

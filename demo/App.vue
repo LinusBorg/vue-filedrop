@@ -1,11 +1,21 @@
 <template>
-  <div id="app">Hello</div>
+  <div id="app">
+    <h3>Simple File Drop:</h3>
+    <SimpleFileDrop />
+    <h3>Image Preview</h3>
+    <ImagePreview />
+  </div>
 </template>
 
 <script>
+import SimpleFileDrop from './components/SimpleFileDrop'
+import ImagePreview from './components/ImagePreview'
 export default {
   name: 'app',
-  components: {},
+  components: {
+    SimpleFileDrop,
+    ImagePreview,
+  },
 }
 </script>
 
