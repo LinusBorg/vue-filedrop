@@ -3,19 +3,15 @@
     <div
       v-for="(file, idx) in filedrop.files"
       :key="`${file.name}_${file.size}`"
-      class="image-container"
+      class="filedrop--image-container"
       :style="widthStyle"
       :title="file.name"
     >
-      <img
-        :src="file.data"
-        :alt="file.name"
-        class="image"
-        style="width: 100%"
-      />
-      <br />
-      <div class="text" :class="textMaxWidth">{{ file.name }}</div>
-      <a href="#" class="remove-link" @click="filedrop.remove(idx)">x</a>
+      <img :src="file.data" :alt="file.name" style="width: 100%" /> <br />
+      <div class="filedrop--text" :class="textMaxWidth">{{ file.name }}</div>
+      <a href="#" class="filedrop--remove-link" @click="filedrop.remove(idx)"
+        >x</a
+      >
     </div>
   </div>
 </template>
@@ -55,7 +51,7 @@ export default {
   justify-content: center;
   align-content: space-between;
 
-  & .image-container {
+  & .filedrop--image-container {
     position: relative;
     margin-top: 10px;
     margin-right: 10px;
@@ -63,7 +59,7 @@ export default {
     border: 1px solid #ddd;
   }
 
-  & .text {
+  & .filedrop--text {
     font-size: 0.7rem;
     height: 0.8rem;
     line-height: 0.8rem;
@@ -71,7 +67,7 @@ export default {
     overflow: hidden;
   }
 
-  & .remove-link,
+  & .filedrop--remove-link,
   .remove-link:hover,
   .remove-link:active {
     position: absolute;
@@ -85,10 +81,6 @@ export default {
     border-radius: 50%;
     border: 1px solid #ddd;
     text-decoration: none;
-  }
-
-  & .image {
-    // max-width: 300px;
   }
 }
 </style>
