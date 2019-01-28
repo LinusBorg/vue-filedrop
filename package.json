@@ -2,6 +2,11 @@
   "name": "vue-filedrop",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/VueFiledrop.common.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "sideeffects": [
     "*.css"
   ],
@@ -9,6 +14,7 @@
     "serve": "vue-cli-service serve demo/main",
     "build": "vue-cli-service build demo/main",
     "build:lib:full": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFiledrop src/full.js",
+    "build:lib:core": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFiledrop --dest dist/core src/index.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

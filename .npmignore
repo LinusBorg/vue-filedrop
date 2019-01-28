@@ -1,0 +1,6 @@
+/.vscode
+/.circleci
+/demo
+/node_modules
+/public
+/tests
