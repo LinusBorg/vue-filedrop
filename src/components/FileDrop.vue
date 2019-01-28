@@ -29,6 +29,7 @@ const propsToProvide = [
   'dragging',
   // computed
   'dragEvents',
+  'hasFiles',
   // Methods
   'open',
   'emit',
@@ -38,7 +39,7 @@ const propsToProvide = [
 
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
-  inheritAs: 'fileUploaderProps',
+  inheritAs: 'fileUploaderProps', // to inherit from FileUploader
   nameForComputed: 'fileDropProps',
   props: true,
   include: propsToProvide,
@@ -64,7 +65,7 @@ export default Vue.extend({
       type: String,
       default: null,
     },
-    lazy: {
+    manualEmit: {
       type: Boolean,
       default: false,
     },
@@ -88,7 +89,7 @@ export default Vue.extend({
       hovering: false,
       dragging: false,
       files: [],
-      inputKey: 0,
+      inputKey: 0, // hack to reset input element
     }
   },
 
@@ -118,7 +119,7 @@ export default Vue.extend({
     files: {
       deep: true,
       handler(files) {
-        if (!this.lazy) {
+        if (!this.manualEmit) {
           this.$emit('change', files)
         }
       },
@@ -127,7 +128,7 @@ export default Vue.extend({
 
   methods: {
     /*
-     * Setting `hovering` reliably
+     * Drag&Drop handling
      */
     dragover(e) {
       e.preventDefault()
@@ -154,8 +155,8 @@ export default Vue.extend({
       }
     },
     drop(e) {
-      this.onFileDrop(e)
       e.preventDefault()
+      this.onFileDrop(e)
     },
 
     /*
@@ -173,16 +174,9 @@ export default Vue.extend({
         this.files = []
       })
     },
-    remove(idx) {
-      this.$nextTick(() => {
-        this.files.splice(idx, 1)
-      })
-    },
-    emit() {
-      this.$emit('change', this.files)
-    },
+
     /*
-     * File Events Handling
+     * File Events
      */
     onFileInputChange(event) {
       this.handleFiles(event.target.files)
@@ -203,6 +197,15 @@ export default Vue.extend({
         return
       }
       this.handleFiles(files)
+    },
+
+    remove(idx) {
+      this.$nextTick(() => {
+        this.files.splice(idx, 1)
+      })
+    },
+    emit() {
+      this.$emit('change', this.files)
     },
 
     handleFiles(filesList) {
@@ -234,4 +237,3 @@ export default Vue.extend({
   height: 100%;
 }
 </style>
-^

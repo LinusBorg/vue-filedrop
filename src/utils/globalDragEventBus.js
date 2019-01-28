@@ -3,20 +3,20 @@ import Vue from 'vue'
 const vm = new Vue({
   created() {
     const html = document.querySelector('html')
-    html.addEventListener('dragenter', this.dragstartGlobal)
-    html.addEventListener('dragleave', this.dragleaveGlobal)
-    html.addEventListener('dragend', this.dragendGlobal)
-    html.addEventListener('drop', this.dragendGlobal)
+    html.addEventListener('dragenter', this.dragenter)
+    html.addEventListener('dragleave', this.dragleave)
+    html.addEventListener('dragend', this.dragend)
+    html.addEventListener('drop', this.dragend)
   },
   beforeDestroy() {
     const html = document.querySelector('html')
-    html.addEventListener('dragenter', this.dragstartGlobal)
-    html.removeEventListener('dragleave', this.dragleaveGlobal)
-    html.removeEventListener('dragend', this.dragendGlobal)
-    html.removeEventListener('drop', this.dragendGlobal)
+    html.addEventListener('dragenter', this.dragenter)
+    html.removeEventListener('dragleave', this.dragleave)
+    html.removeEventListener('dragend', this.dragend)
+    html.removeEventListener('drop', this.dragend)
   },
   methods: {
-    dragstartGlobal() {
+    dragenter() {
       if (this.$_firstE) {
         this.$_secondE = true
       } else {
@@ -24,7 +24,7 @@ const vm = new Vue({
         this.$emit('dragging', true)
       }
     },
-    dragleaveGlobal() {
+    dragleave() {
       if (this.$_secondE) {
         this.$_secondE = false
       } else if (this.$_firstE) {
@@ -35,7 +35,7 @@ const vm = new Vue({
         this.$emit('dragging', false)
       }
     },
-    dragendGlobal() {
+    dragend() {
       this.$emit('dragging', false)
     },
   },
