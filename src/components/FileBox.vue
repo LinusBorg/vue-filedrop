@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="vue-filedrop-box"
-    v-on="filedrop.dragEvents"
-    @click="open"
-    :class="classes"
-  >
+  <div class="vue-filedrop-box" v-on="clickEvent" :class="classes">
     <slot />
   </div>
 </template>
@@ -20,8 +15,18 @@ export default {
     },
   },
   computed: {
+    clickEvent() {
+      return !this.filedrop.hasFiles
+        ? {
+            click: this.open,
+          }
+        : {}
+    },
     classes() {
-      return [this.hoverClass, this.draggingClass]
+      return [this.hoverClass, this.draggingClass, this.hasFilesClass]
+    },
+    hasFilesClass() {
+      return !this.filedrop.hasFiles ? 'vue-filedrop-no-files' : ''
     },
     hoverClass() {
       return this.filedrop.hovering ? 'vue-filedrop-hover' : ''
@@ -40,20 +45,26 @@ export default {
 </script>
 
 <style lang="scss">
+$padding: 15px;
+
 .vue-filedrop-box {
   margin: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-
+  display: flex;
+  flex: 1 1 auto;
   border: 1px solid #ccc;
   border-radius: 3px;
 
-  padding: 15px;
+  padding: $padding;
 
   &:hover {
-    cursor: pointer;
+    cursor: inherit;
+
+    &.vue-filedrop-no-files {
+      cursor: pointer;
+    }
   }
 
   &.vue-filedrop-dragging {

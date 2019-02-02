@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div class="simpledrop-example">
     <FileDrop @change="handleFiles" multiple>
-      <div slot-scope="{ files, open, clear, dragEvents }" v-on="dragEvents">
+      <div
+        slot-scope="{ files, open, clear, dragEvents }"
+        v-on="dragEvents"
+        class="simpledrop-wrapper"
+      >
         <ul v-if="files.length" class="file-list">
           <li v-for="file in files" :key="file.name">{{ file.name }}</li>
         </ul>
@@ -26,6 +30,14 @@ export default {
 </script>
 
 <style scoped>
+.simpledrop-example {
+  max-width: 550px;
+  margin: auto;
+  display: flex;
+}
+.simpledrop-wrapper {
+  margin: auto;
+}
 .file-list {
   list-style-type: none;
 }

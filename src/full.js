@@ -4,7 +4,10 @@ import FileDrop from './components/FileDrop'
 import FileUploader from './components/FileUploader'
 
 import FileBox from './components/FileBox'
-import ImagePreview from './components/ImagePreview'
+import ImageList from './components/ImageList'
+import FileList from './components/FileList'
+
+import * as filters from './utils'
 
 const notFalse = v => v !== false
 /* eslint-disable-next-line no-unused-vars */
@@ -15,8 +18,16 @@ function install(_Vue, options = {}) {
     Vue.component(options.FileDropUploader || 'FileUploader', FileUploader)
   notFalse(options.FileBox) &&
     Vue.component(options.FileBox || 'FileBox', FileBox)
-  notFalse(options.ImagePreview) &&
-    Vue.component(options.ImagePreview || 'ImagePreview', ImagePreview)
+  notFalse(options.ImageList) &&
+    Vue.component(options.ImageList || 'ImageList', ImageList)
+  notFalse(options.FileList) &&
+    Vue.component(options.FileList || 'FileList', FileList)
+
+  if (options.filters !== false) {
+    Object.keys(filters).forEach(filterName => {
+      Vue.filter(`filedrop:${filterName}`, filters[filterName])
+    })
+  }
 }
 
 // autoinstall for script-tag includes
@@ -31,3 +42,4 @@ export default {
 }
 
 export { FileBox, FileDrop, FileUploader }
+export * from './utils/filters'

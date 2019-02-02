@@ -20,6 +20,7 @@
 import { PROVIDE_KEY } from '../utils'
 
 export default {
+  name: 'ImageList',
   inject: {
     filedrop: PROVIDE_KEY,
   },

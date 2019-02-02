@@ -1,6 +1,6 @@
 <template>
   <div class="dropzone">
-    <FileDrop multiple lazy processFiles readAs="DataURL">
+    <FileDrop multiple manualEmit processFiles readAs="DataURL">
       <FileBox slot-scope="{ files, clear }">
         <p v-if="!files.length">
           No images yet. Drop or click here to add some.
@@ -29,7 +29,8 @@ export default {
 <style scoped>
 .dropzone {
   max-width: 550px;
-  height: 200px;
+  min-height: 200px;
+  display: flex;
   margin: 0 auto;
 }
 </style>
