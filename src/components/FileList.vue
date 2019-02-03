@@ -93,7 +93,7 @@ $height: 20px;
     padding: 0;
     height: $height;
     width: $height;
-    line-height: calc($height - (2 * #{$bw}));
+    line-height: calc(#{$height} - (2 * #{$bw}));
   }
 
   &--button:hover {
