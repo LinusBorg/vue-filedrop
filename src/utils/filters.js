@@ -21,10 +21,10 @@ export function size(v, unit = 'auto') {
   return `${Math.round((v / factor) * 100, 2) / 100} ${text}`
 }
 
-export function shorten(text = '', maxlen = 20, points = true) {
-  if (typeof text !== 'string') return ''
+export function shorten(_text = '', maxlen = 50, points = true) {
+  if (typeof _text !== 'string') return ''
 
-  text = text.slice(0, maxlen)
+  const text = _text.slice(0, maxlen)
 
-  return points ? `${text}...` : text
+  return points && text !== _text ? `${text}...` : text
 }

@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <h3>Simple File Drop</h3>
+    <h3 class="title">Simple File Drop</h3>
     <SimpleFileDrop />
-    <h3>Image Preview List</h3>
+    <h3 class="title">Image Preview List</h3>
     <ImagePreview />
-    <h3>Simple File List</h3>
+    <h3 class="title">Simple File List</h3>
     <FileListExample />
-    <h3>Typical Dropzone style component</h3>
+    <h3 class="title">Typical Dropzone style component</h3>
     <Dropzone />
   </div>
 </template>
@@ -35,5 +35,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.title {
+  text-align: center;
 }
 </style>

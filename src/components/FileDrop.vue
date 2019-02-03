@@ -164,7 +164,6 @@ export default Vue.extend({
      */
     open() {
       const { input } = this.$refs
-      console.log('open', input)
       input && input.click()
     },
     clear() {

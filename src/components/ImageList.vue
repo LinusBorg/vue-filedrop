@@ -7,7 +7,13 @@
       :style="widthStyle"
       :title="file.name"
     >
-      <img :src="file.data" :alt="file.name" style="width: 100%" /> <br />
+      <img
+        :src="file.data"
+        :alt="file.name"
+        style="width: 100%"
+        @click="handleClick(idx)"
+      />
+      <br />
       <div class="filedrop--text" :class="textMaxWidth">{{ file.name }}</div>
       <a href="#" class="filedrop--remove-link" @click="filedrop.remove(idx)"
         >x</a
@@ -42,6 +48,11 @@ export default {
       return `max-width: calc(${this.width}px + 20px)`
     },
   },
+  methods: {
+    handleClick(idx) {
+      this.$emit('image-click', idx, this.filedrop.files[idx])
+    },
+  },
 }
 </script>
 
@@ -55,6 +66,7 @@ export default {
   & .filedrop--image-container {
     position: relative;
     margin-top: 10px;
+    margin-left: 10px;
     margin-right: 10px;
     padding: 3px;
     border: 1px solid #ddd;
@@ -72,15 +84,19 @@ export default {
   .remove-link:hover,
   .remove-link:active {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 20px;
-    height: 20x;
-    line-height: 20px;
-    color: red;
+    display: block;
     background-color: white;
     border-radius: 50%;
     border: 1px solid #ddd;
+    color: red;
+
+    top: -10px;
+    right: -10px;
+    height: 20x;
+    line-height: 20px;
+    width: 20px;
+
+    text-align: center;
     text-decoration: none;
   }
 }

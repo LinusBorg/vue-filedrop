@@ -1,10 +1,13 @@
 <template>
-  <div class="filedrop--filelist">
-    <ul v-if="filedrop.hasFiles" class="filedrop--list">
-      <li
+  <div class="filedrop--filelistcontainer">
+    <div v-if="filedrop.hasFiles" class="filedrop--list">
+      <h3 class="filedrop--filelist-header">
+        {{ filedrop.files.length }} files added
+      </h3>
+      <div
         v-for="(file, idx) in filedrop.files"
         :key="`${file.name}_${file.size}`"
-        class="filedrop--item"
+        class="filedrop--list-item"
       >
         <div class="filedrop--name" :title="file.name">
           {{ file.name | shorten }} ({{ file.size | size }})
@@ -12,9 +15,13 @@
         <div class="filedrop--action">
           <button class="filedrop--button" @click="remove(idx)">X</button>
         </div>
-      </li>
-    </ul>
-    <p v-else>No files yet drop them here or click here to select</p>
+      </div>
+    </div>
+    <div v-else class="filedrop--list-hint-container">
+      <p class="filedrop--list-hint">
+        No files yet drop them here or click here to select
+      </p>
+    </div>
   </div>
 </template>
 
@@ -42,19 +49,33 @@ export default {
 $bw: 1px;
 $height: 20px;
 .filedrop {
-  &--list {
-    list-style-type: none;
-    padding-left: 0;
-    //display: block;
+  &--filelistcontainer {
     width: 100%;
   }
-  &--item {
+  &--filelist-header {
+    text-align: center;
+  }
+  &--list {
+    font-size: 0.9em;
+  }
+  &--list-item {
+    position: relative;
     display: flex;
-    width: 100%;
+    padding: 8px 0;
+  }
+
+  &--list-item:not(:last-child):after {
+    position: absolute;
+    content: '';
+    background-color: #ccc;
+    height: 1px;
+    left: 0;
+    right: 0;
+    bottom: 1px;
   }
 
   &--name {
-    flex: 1;
+    flex: 1 0 auto;
     padding: 3px 10px;
   }
 
@@ -64,9 +85,9 @@ $height: 20px;
   }
 
   &--button {
+    cursor: pointer;
     display: block;
     color: #444;
-    cursor: pointer;
     border-radius: 50%;
     border: $bw solid #ccc;
     padding: 0;
@@ -77,6 +98,16 @@ $height: 20px;
 
   &--button:hover {
     background-color: #eee;
+  }
+
+  &--list-hint-container {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  &--list-hint {
+    text-align: center;
   }
 }
 </style>

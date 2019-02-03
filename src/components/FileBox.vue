@@ -1,7 +1,5 @@
 <template>
-  <div class="vue-filedrop-box" v-on="clickEvent" :class="classes">
-    <slot />
-  </div>
+  <div class="vue-filedrop-box" v-on="events" :class="classes"><slot /></div>
 </template>
 
 <script>
@@ -15,12 +13,16 @@ export default {
     },
   },
   computed: {
-    clickEvent() {
-      return !this.filedrop.hasFiles
+    events() {
+      const click = !this.filedrop.hasFiles
         ? {
             click: this.open,
           }
         : {}
+      return {
+        ...click,
+        ...this.filedrop.dragEvents,
+      }
     },
     classes() {
       return [this.hoverClass, this.draggingClass, this.hasFilesClass]
@@ -29,7 +31,7 @@ export default {
       return !this.filedrop.hasFiles ? 'vue-filedrop-no-files' : ''
     },
     hoverClass() {
-      return this.filedrop.hovering ? 'vue-filedrop-hover' : ''
+      return this.filedrop.hovering ? 'vue-filedrop-hovering' : ''
     },
     draggingClass() {
       return this.filedrop.dragging ? 'vue-filedrop-dragging' : ''
@@ -51,7 +53,7 @@ $padding: 15px;
   margin: 1rem;
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
   display: flex;
   flex: 1 1 auto;
   border: 1px solid #ccc;
@@ -69,11 +71,13 @@ $padding: 15px;
 
   &.vue-filedrop-dragging {
     border-style: dashed;
-    border-width: 3px;
+    border-width: 2px;
   }
 
-  &.vue-filedrop-hover {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  &.vue-filedrop-hovering {
+    border-color: #aaa;
+    // background-color: #fdfdfd;
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.22);
   }
 }
 </style>
