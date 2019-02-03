@@ -12,9 +12,11 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve demo/main",
-    "build": "vue-cli-service build demo/main",
-    "build:lib:full": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFiledrop src/full.js",
-    "build:lib:core": "rimraf node_modules/.cache && vue-cli-service build --target lib --name VueFiledrop --dest dist/core src/index.js",
+    "build:demo": "vue-cli-service build demo/main",
+    "build": "rimraf node_modules/.cache && yarn build:lib:full && yarn build:lib:core --no-clean",
+    "build:lib:full": "vue-cli-service build --target lib --name VueFiledrop src/full.js",
+    "build:lib:core": "vue-cli-service build --target lib --name VueFiledrop --dest dist/core src/index.js",
+    "build:lib:wc": "rimraf node_modules/.cache && vue-cli-service build --target wc --no-clean --dest dist/wc src/full.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
