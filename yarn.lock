@@ -9718,10 +9718,10 @@ vue-loader@^15.4.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-reactive-provide@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/vue-reactive-provide/-/vue-reactive-provide-0.2.1.tgz#ff7e20c408214e5a85f5358634ed0c6eb1097442"
-  integrity sha512-h4CDRMK2Td5i97vJgtgWXxGN59EKGq/uSA3zkZemtTV/YUP+qvVcCZp9PyLOOqhKcbVb//Sl/JBJgDFxYpsqMw==
+vue-reactive-provide@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/vue-reactive-provide/-/vue-reactive-provide-0.2.2.tgz#a7bca8dd070bb8541626a87d79895e0a2efc45da"
+  integrity sha512-Fef1pau2UUqJ0Ez4MOJ8kKhRKlvfGTegKGq2+iAU/yGaSI0cYCEJbjYQCF3HMJcbjqr28ou3/oAoL88HLPSMOA==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"

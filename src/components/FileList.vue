@@ -1,24 +1,24 @@
 <template>
-  <div class="filedrop--filelistcontainer">
-    <div v-if="filedrop.hasFiles" class="filedrop--list">
-      <h3 class="filedrop--filelist-header">
+  <div class="vue-filedrop--filelist-container">
+    <div v-if="filedrop.hasFiles" class="filedrop--filelist">
+      <h3 class="vue-filedrop--filelist-header">
         {{ filedrop.files.length }} files added
       </h3>
       <div
         v-for="(file, idx) in filedrop.files"
         :key="`${file.name}_${file.size}`"
-        class="filedrop--list-item"
+        class="vue-filedrop--list-item"
       >
-        <div class="filedrop--name" :title="file.name">
+        <div class="vue-filedrop--name" :title="file.name">
           {{ file.name | shorten }} ({{ file.size | size }})
         </div>
-        <div class="filedrop--action">
+        <div class="vue-filedrop--action">
           <button class="filedrop--button" @click="remove(idx)">X</button>
         </div>
       </div>
     </div>
-    <div v-else class="filedrop--list-hint-container">
-      <p class="filedrop--list-hint">
+    <div v-else class="vue-filedrop--list-hint-container">
+      <p class="vue-filedrop--list-hint">
         No files yet drop them here or click here to select
       </p>
     </div>
@@ -48,15 +48,15 @@ export default {
 <style scoped lang="scss">
 $bw: 1px;
 $height: 20px;
-.filedrop {
-  &--filelistcontainer {
+.vue-filedrop {
+  &--filelist-container {
     width: 100%;
+  }
+  &--filelist {
+    font-size: 0.9em;
   }
   &--filelist-header {
     text-align: center;
-  }
-  &--list {
-    font-size: 0.9em;
   }
   &--list-item {
     position: relative;

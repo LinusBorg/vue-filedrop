@@ -1,9 +1,9 @@
 <template>
-  <div class="filedrop--imagepreview">
+  <div class="vue-filedrop--imagepreview">
     <div
       v-for="(file, idx) in filedrop.files"
       :key="`${file.name}_${file.size}`"
-      class="filedrop--image-container"
+      class="vue-filedrop--image-container"
       :style="widthStyle"
       :title="file.name"
     >
@@ -14,8 +14,13 @@
         @click="handleClick(idx)"
       />
       <br />
-      <div class="filedrop--text" :class="textMaxWidth">{{ file.name }}</div>
-      <a href="#" class="filedrop--remove-link" @click="filedrop.remove(idx)"
+      <div class="vue-filedrop--text" :class="textMaxWidth">
+        {{ file.name }}
+      </div>
+      <a
+        href="#"
+        class="vue-filedrop--remove-link"
+        @click="filedrop.remove(idx)"
         >x</a
       >
     </div>
@@ -57,13 +62,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.filedrop--imagepreview {
+.vue-filedrop--imagepreview {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: space-between;
 
-  & .filedrop--image-container {
+  & .vue-filedrop--image-container {
     position: relative;
     margin-top: 10px;
     margin-left: 10px;
@@ -72,7 +77,7 @@ export default {
     border: 1px solid #ddd;
   }
 
-  & .filedrop--text {
+  & .vue-filedrop--text {
     font-size: 0.7rem;
     height: 0.8rem;
     line-height: 0.8rem;
@@ -80,9 +85,9 @@ export default {
     overflow: hidden;
   }
 
-  & .filedrop--remove-link,
-  .remove-link:hover,
-  .remove-link:active {
+  & .vue-filedrop--remove-link,
+  .vue-filedrop--remove-link:hover,
+  .vue-filedrop--remove-link:active {
     position: absolute;
     display: block;
     background-color: white;
