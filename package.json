@@ -2,22 +2,15 @@
   "name": "vue-filedrop",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/VueFiledrop.common.js",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "sideEffects": [
-    "*.css"
-  ],
   "scripts": {
     "serve": "vue-cli-service serve demo/main",
-    "build:demo": "vue-cli-service build demo/main",
     "build": "rimraf node_modules/.cache && yarn build:lib:full && yarn build:lib:core --no-clean",
-    "build:lib:full": "vue-cli-service build --target lib --name VueFiledrop src/full.js",
-    "build:lib:core": "vue-cli-service build --target lib --name VueFiledrop --dest dist/core src/index.js",
-    "build:lib:wc": "rimraf node_modules/.cache && vue-cli-service build --target wc --no-clean --dest dist/wc src/full.js",
     "lint": "vue-cli-service lint",
+    "build:demo": "vue-cli-service build demo/main",
+    "build:lib:core": "vue-cli-service build --target lib --name VueFiledrop --dest dist/core src/index.js",
+    "build:lib:full": "vue-cli-service build --target lib --name VueFiledrop src/full.js",
+    "build:lib:wc": "rimraf node_modules/.cache && vue-cli-service build --target wc --no-clean --dest dist/wc src/full.js",
+    "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -43,6 +36,14 @@
     "vue": "^2.5.17",
     "vue-template-compiler": "^2.5.17"
   },
+  "main": "dist/VueFiledrop.common.js",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
