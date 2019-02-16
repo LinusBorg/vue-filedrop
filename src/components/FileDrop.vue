@@ -120,7 +120,7 @@ export default Vue.extend({
       deep: true,
       handler(files) {
         if (!this.manualEmit) {
-          this.$emit('change', files)
+          this.$emit('change', files.slice())
         }
       },
     },
@@ -213,7 +213,7 @@ export default Vue.extend({
       })
     },
     emit() {
-      this.$emit('change', this.files)
+      this.$emit('change', this.files.splice())
     },
 
     handleFiles(filesList) {
