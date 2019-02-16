@@ -4,6 +4,7 @@ import FileDrop from '@/components/FileDrop'
 import {
   createFile,
   createWrapper,
+  InjectCatcherStub,
   mockConsole,
 } from '../resources/filedrop.utils'
 const tick = () => Vue.nextTick()
@@ -212,5 +213,26 @@ describe('The FileDrop component', () => {
 
     expect(wrapper.vm.files.length).toBe(0)
     spys.unwatch()
+  })
+
+  test('provides the same API through provide and scopedSlot', async () => {
+    const slotSpy = jest.fn()
+    const injectSpy = jest.fn()
+
+    createWrapper({
+      scopedSlots: {
+        default: function(props) {
+          slotSpy(props)
+          return this.$createElement(InjectCatcherStub(injectSpy))
+        },
+      },
+    })
+
+    await tick()
+
+    const slotProps = lastCallArgs(slotSpy)
+    const injectProps = lastCallArgs(injectSpy)
+
+    expect(slotProps).toMatchObject(injectProps)
   })
 })

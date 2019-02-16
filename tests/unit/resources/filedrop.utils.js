@@ -39,3 +39,15 @@ export const createWrapper = (options = {}) => {
     wrapper: instance,
   }
 }
+
+export const InjectCatcherStub = fn => ({
+  inject: {
+    filedrop: require('../../../src/utils/index').PROVIDE_KEY,
+  },
+  created() {
+    fn(this.filedrop)
+  },
+  render() {
+    return null
+  },
+})
