@@ -1,34 +1,25 @@
 <template>
   <div id="app">
-    <h3 class="title">Simple File Drop</h3>
-    <SimpleFileDrop />
-    <h3 class="title">Image Preview List</h3>
-    <ImagePreview />
-    <h3 class="title">Simple File List</h3>
-    <FileListExample />
-    <h3 class="title">Typical Dropzone style component</h3>
-    <Dropzone />
+    <nav>
+      <ul class="main-navigation">
+        <li><router-link to="/">Simple</router-link></li>
+        <li><router-link to="/file-list">File List</router-link></li>
+        <li><router-link to="/image-preview">Image preview</router-link></li>
+        <li><router-link to="/dropzone">Dropzone</router-link></li>
+      </ul>
+    </nav>
+    <h3 class="title">{{ $route.meta.title || 'Placeholder Title!' }}</h3>
+    <router-view />
   </div>
 </template>
 
 <script>
-import SimpleFileDrop from './components/SimpleFileDrop'
-import ImagePreview from './components/ImagePreview'
-import Dropzone from './components/Dropzone'
-import FileListExample from './components/FileListExample'
-
 export default {
   name: 'app',
-  components: {
-    Dropzone,
-    FileListExample,
-    ImagePreview,
-    SimpleFileDrop,
-  },
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -39,5 +30,26 @@ export default {
 
 .title {
   text-align: center;
+}
+
+.main-navigation {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+
+  li {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px;
+  }
+
+  a,
+  a:hover a:visited a:active {
+    padding: 5px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: green;
+  }
 }
 </style>
