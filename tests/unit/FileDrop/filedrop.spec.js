@@ -1,38 +1,15 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import FileDrop from '@/components/FileDrop'
-
+import {
+  createFile,
+  createWrapper,
+  mockConsole,
+} from '../resources/filedrop.utils'
 const tick = () => Vue.nextTick()
 
 const lastCallArgs = fn => {
   return fn.mock.calls[fn.mock.calls.length - 1][0]
-}
-
-const createWrapper = (options = {}) => {
-  const fn = jest.fn()
-  const component = {
-    ...options,
-    render(h) {
-      return h(FileDrop, {
-        ref: 'filedrop',
-        scopedSlots: {
-          default: props => {
-            fn(props)
-            return h()
-          },
-        },
-      })
-    },
-  }
-
-  return {
-    fn,
-    wrapper: mount(component),
-  }
-}
-
-const createFile = (content = 'text') => {
-  return new Blob([content], { type: 'text/pain' })
 }
 
 describe('The FileDrop component', () => {
@@ -73,7 +50,7 @@ describe('The FileDrop component', () => {
     const file = createFile()
 
     // hacky because we can't trigger a proper change event on the input
-    wrapper.vm.$refs.filedrop.onFileInputChange({
+    wrapper.vm.onFileInputChange({
       target: {
         files: [file],
       },
@@ -91,7 +68,7 @@ describe('The FileDrop component', () => {
     const file = createFile()
 
     // hacky because we can't trigger a proper change event on the input
-    wrapper.vm.$refs.filedrop.onFileDrop({
+    wrapper.vm.onFileDrop({
       dataTransfer: {
         files: [file],
       },
@@ -109,7 +86,7 @@ describe('The FileDrop component', () => {
     const file = createFile()
 
     // hacky because we can't trigger a proper change event on the input
-    wrapper.vm.$refs.filedrop.onFileDrop({
+    wrapper.vm.onFileDrop({
       dataTransfer: {
         files: [file],
       },
@@ -124,5 +101,116 @@ describe('The FileDrop component', () => {
 
     await tick()
     expect(lastCallArgs(fn).files.length).toBe(0)
+  })
+
+  test('clear does remove all files', async () => {
+    const { wrapper, fn } = createWrapper({
+      propsData: {
+        multiple: true,
+      },
+    })
+
+    const file = createFile()
+    const file2 = createFile()
+    // hacky because we can't trigger a proper change event on the input
+    wrapper.vm.onFileDrop({
+      dataTransfer: {
+        files: [file, file2],
+      },
+    })
+
+    await tick()
+
+    const props = lastCallArgs(fn)
+
+    expect(lastCallArgs(fn).files.length).toBe(2)
+    props.clear()
+
+    await tick()
+    expect(lastCallArgs(fn).files.length).toBe(0)
+  })
+
+  test('emits event for added files', async () => {
+    const { wrapper } = createWrapper()
+
+    const file = createFile()
+    const cb = jest.fn()
+    // hacky because we can't trigger a proper change event on the input
+    wrapper.vm.$on('change', cb)
+    wrapper.vm.onFileDrop({
+      dataTransfer: {
+        files: [file],
+      },
+    })
+
+    await tick()
+
+    expect(cb).toHaveBeenCalledWith(expect.arrayContaining([file]))
+
+    cb.mockClear()
+    wrapper.vm.emit()
+    expect(cb).toHaveBeenCalledWith(expect.arrayContaining([file]))
+  })
+
+  test('can switch root element', async () => {
+    const { wrapper } = createWrapper({
+      propsData: {
+        tag: 'span',
+      },
+    })
+
+    expect(wrapper.vm.$el.tagName).toBe('SPAN')
+  })
+
+  test('respects the max prop', async () => {
+    const spys = mockConsole()
+    const { wrapper, fn } = createWrapper({
+      propsData: {
+        multiple: true,
+        max: 2,
+      },
+    })
+
+    const input = wrapper.find('input')
+
+    expect(input.element.max).toBe('2')
+
+    const file = createFile()
+    const file2 = createFile()
+    wrapper.vm.onFileDrop({
+      dataTransfer: {
+        files: [file, file2],
+      },
+    })
+
+    wrapper.vm.onFileDrop({
+      dataTransfer: {
+        files: [createFile()],
+      },
+    })
+
+    await tick()
+
+    const props = lastCallArgs(fn)
+    expect(props.hasFiles).toBe(true)
+    expect(props.files.length).toBe(2)
+
+    spys.unwatch()
+  })
+
+  test('allows only one file to be drop with `multiple` not set', async () => {
+    const spys = mockConsole()
+    const { wrapper } = createWrapper()
+
+    const file = createFile()
+    const file2 = createFile()
+    wrapper.vm.onFileDrop({
+      dataTransfer: {
+        files: [file, file2],
+      },
+    })
+
+    expect(wrapper.vm.files.length).toBe(0)
+    spys.unwatch()
   })
 })
