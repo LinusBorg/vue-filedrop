@@ -95,7 +95,7 @@ export default Vue.extend({
 
   computed: {
     hasFiles() {
-      return this.files.length
+      return !!this.files.length
     },
     dragEvents() {
       return pick(this, ['dragover', 'dragenter', 'dragleave', 'drop'])
@@ -187,6 +187,15 @@ export default Vue.extend({
       const files = event.dataTransfer.files
       const numDropped = files.length
       const numCached = this.files.length
+
+      if (!this.multiple && files.length > 1) {
+        console.error(
+          `[vue-filedrop]: Dropping more than one file is not allowed. 
+                 Set the 'multiple' prop to allow it.
+        `
+        )
+        return
+      }
       if (numCached + numDropped > this.max) {
         console.error(
           `[vue-filedrop]: Dropping ${numDropped} files exceeds limit of ${
