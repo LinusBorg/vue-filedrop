@@ -8,7 +8,7 @@
         <li><router-link to="/dropzone">Dropzone</router-link></li>
       </ul>
     </nav>
-    <h3 class="title">{{ $route.meta.title || 'Placeholder Title!' }}</h3>
+    <h2 class="title">{{ $route.meta.title || 'Placeholder Title!' }}</h2>
     <router-view />
   </div>
 </template>
