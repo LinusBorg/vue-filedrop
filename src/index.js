@@ -1,12 +1,10 @@
 import Vue from 'vue'
 
 import FileDrop from './components/FileDrop'
-import FileUploader from './components/FileUploader'
 
 /* eslint-disable-next-line no-unused-vars */
 function install(_Vue, { FileDropName, FileUploaderName } = {}) {
   Vue.component(FileDropName || 'FileDrop', FileDrop)
-  Vue.component(FileUploaderName || 'FileUploader', FileUploader)
 }
 
 // autoinstall for script-tag includes
@@ -19,4 +17,4 @@ export default {
   install,
 }
 
-export { FileDrop, FileUploader }
+export { FileDrop }

@@ -1,5 +1,12 @@
 import Vue from 'vue'
 
+/**
+ * This is not yet part of the lib. 
+ * 
+ * The goal ist to first release the core version and then add 
+ * additional components as we identify the use cases.
+ */
+
 import FileDrop from './components/FileDrop'
 import FileUploader from './components/FileUploader'
 
