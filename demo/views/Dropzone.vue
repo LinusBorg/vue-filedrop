@@ -6,7 +6,7 @@
           No images yet. Drop or click here to add some.
         </p>
         <div v-else>
-          <ImagePreview width="150" />
+          <ImageList width="150" />
           <button @click="handle(files, clear)">Save</button>
         </div>
       </FileBox>

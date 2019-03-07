@@ -1,14 +1,13 @@
 import Vue from 'vue'
 
 /**
- * This is not yet part of the lib. 
- * 
- * The goal ist to first release the core version and then add 
+ * This is not yet part of the lib.
+ *
+ * The goal ist to first release the core version and then add
  * additional components as we identify the use cases.
  */
 
 import FileDrop from './components/FileDrop'
-import FileUploader from './components/FileUploader'
 
 import FileBox from './components/FileBox'
 import ImageList from './components/ImageList'
@@ -21,8 +20,6 @@ const notFalse = v => v !== false
 function install(_Vue, options = {}) {
   notFalse(options.FileDrop) &&
     Vue.component(options.FileDrop || 'FileDrop', FileDrop)
-  notFalse(options.FileUploader) &&
-    Vue.component(options.FileDropUploader || 'FileUploader', FileUploader)
   notFalse(options.FileBox) &&
     Vue.component(options.FileBox || 'FileBox', FileBox)
   notFalse(options.ImageList) &&
@@ -48,5 +45,5 @@ export default {
   install,
 }
 
-export { FileBox, FileDrop, FileUploader }
+export { FileBox, FileDrop }
 export * from './utils/filters'
