@@ -27,6 +27,7 @@ const propsToProvide = [
   'files',
   'hovering',
   'dragging',
+  'processing',
   // computed
   'dragEvents',
   'hasFiles',
@@ -78,6 +79,9 @@ export default Vue.extend({
       default: 'Text', // 'ArrayBuffer', 'Blob', 'DataURL', 'Text'
       validator: validateReadAs,
     },
+    stateless: {
+      type: Boolean,
+    },
     tag: {
       type: String,
       default: 'DIV',
@@ -88,6 +92,7 @@ export default Vue.extend({
     return {
       hovering: false,
       dragging: false,
+      processing: false,
       files: [],
       inputKey: 0, // hack to reset input element
     }
@@ -119,7 +124,7 @@ export default Vue.extend({
     files: {
       deep: true,
       handler(files) {
-        if (!this.manualEmit) {
+        if (!this.manualEmit && !this.stateless) {
           this.$emit('change', files.slice())
         }
       },
@@ -207,34 +212,45 @@ export default Vue.extend({
       this.handleFiles(files)
     },
 
-    remove(idx) {
-      this.$nextTick(() => {
-        this.files.splice(idx, 1)
-      })
-    },
-    emit() {
-      this.$emit('change', this.files.splice())
-    },
-
+    // File Processing
     handleFiles(filesList) {
       const files = [...filesList]
       if (!this.processFiles) {
-        this.files = files
+        this.addFiles(files)
       } else {
-        this.processingFiles = true
+        this.processing = true
         processFiles(files, this.readAs)
           .then(processedFiles => {
-            this.files = processedFiles
-            this.processingFiles = false
+            this.addFiles(processedFiles)
+            this.processing = false
           })
           .catch(error => {
             console.error(
               '[vue-component-filedrop] An error occured while processing the file(s)',
               error
             )
-            this.processingFiles = false
+            this.processing = false
           })
       }
+    },
+    addFiles(files) {
+      if (this.stateless) {
+        this.emit()
+      } else {
+        if (this.append) {
+          this.files.push(...files)
+        } else {
+          this.files = files
+        }
+      }
+    },
+    emit(files = this.files) {
+      this.$emit('change', files.splice())
+    },
+    remove(idx) {
+      this.$nextTick(() => {
+        this.files.splice(idx, 1)
+      })
     },
   },
 })
