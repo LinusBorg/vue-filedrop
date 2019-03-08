@@ -156,7 +156,7 @@ export default Vue.extend({
 
       if (!this.$_first && !this.$_second) {
         this.hovering = false
-        this.$emit('dragenter', e)
+        this.$emit('dragleave', e)
       }
     },
     drop(e) {
