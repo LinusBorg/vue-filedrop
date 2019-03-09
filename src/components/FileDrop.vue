@@ -6,7 +6,7 @@
       style="display: none"
       ref="input"
       :accept="accept"
-      :multiple="multiple"
+      :multiple="this.max > 1"
       :max="max"
       :key="`vueFiledropInput_${inputKey}`"
       @change="onFileInputChange"
@@ -28,6 +28,7 @@ const propsToProvide = [
   'hovering',
   'dragging',
   'processing',
+  'maxExceeded',
   // computed
   'dragEvents',
   'hasFiles',
@@ -54,9 +55,9 @@ export default Vue.extend({
       default: false,
     },
     max: {
-      // TODO: implement error if exceeded
       type: Number,
       default: Infinity,
+      validator: max => max && +max >= 1,
     },
     append: {
       type: Boolean,
@@ -92,6 +93,7 @@ export default Vue.extend({
       hovering: false,
       dragging: false,
       processing: false,
+      rawFiles: [],
       files: [],
       inputKey: 0, // hack to reset input element
     }
@@ -103,6 +105,10 @@ export default Vue.extend({
     },
     dragEvents() {
       return pick(this, ['dragover', 'dragenter', 'dragleave', 'drop'])
+    },
+    maxExceeded() {
+      const diff = this.rawFiles.length - this.max
+      return diff > 0 ? diff : 0
     },
   },
 
@@ -175,6 +181,7 @@ export default Vue.extend({
       this.inputKey++ // forces re-creation of input to clear it on all browsers
       this.$nextTick(() => {
         this.files = []
+        this.rawFiles = []
       })
     },
 
@@ -189,31 +196,14 @@ export default Vue.extend({
       this.hovering = false
       this.dragging = false
       const files = event.dataTransfer.files
-      const numDropped = files.length
-      const numCached = this.files.length
-
-      if (!this.multiple && files.length > 1) {
-        console.error(
-          `[vue-filedrop]: Dropping more than one file is not allowed. 
-                 Set the 'multiple' prop to allow it.
-        `
-        )
-        return
-      }
-      if (numCached + numDropped > this.max) {
-        console.error(
-          `[vue-filedrop]: Dropping ${numDropped} files exceeds limit of ${
-            this.max
-          } files`
-        )
-        return
-      }
       this.handleFiles(files)
     },
 
     // File Processing
     handleFiles(filesList) {
-      const files = [...filesList]
+      this.rawFiles = [...filesList]
+      const files = this.rawFiles
+
       if (!this.processFiles) {
         this.addFiles(files)
       } else {
