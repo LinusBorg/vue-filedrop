@@ -18,7 +18,7 @@
 <script>
 import Vue from 'vue'
 import { ReactiveProvideMixin } from 'vue-reactive-provide'
-import { processFiles, validateReadAs, PROVIDE_KEY, pick } from '../utils'
+import { PROVIDE_KEY, pick } from '../utils'
 import GlobalDragEventBus from '../utils/globalDragEventBus'
 
 const propsToProvide = [
@@ -41,7 +41,6 @@ const propsToProvide = [
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
   nameForComputed: 'fileDropProps',
-  props: true,
   include: propsToProvide,
 })
 
@@ -69,14 +68,9 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
-    processFiles: {
-      type: Boolean,
-      default: false,
-    },
-    readAs: {
-      type: String,
-      default: 'Text', // 'ArrayBuffer', 'Blob', 'DataURL', 'Text'
-      validator: validateReadAs,
+    processor: {
+      type: Function,
+      default: files => Promise.resolve(files),
     },
     stateless: {
       type: Boolean,
@@ -199,27 +193,20 @@ export default Vue.extend({
     },
 
     // File Processing
-    handleFiles(filesList) {
+    async handleFiles(filesList) {
       this.rawFiles = [...filesList]
-      const files = this.filter(this.rawFiles)
+      let files = this.filter(this.rawFiles)
 
-      if (!this.processFiles) {
-        this.addFiles(files)
-      } else {
-        this.processing = true
-        processFiles(files, this.readAs)
-          .then(processedFiles => {
-            this.addFiles(processedFiles)
-            this.processing = false
-          })
-          .catch(error => {
-            console.error(
-              '[vue-component-filedrop] An error occured while processing the file(s)',
-              error
-            )
-            this.processing = false
-          })
-      }
+      this.processing = true
+      files = await this.processor(files).catch(error => {
+        console.error(
+          '[vue-component-filedrop] An error occured while processing the file(s)',
+          error
+        )
+        return error
+      })
+      this.processing = false
+      this.addFiles(files)
     },
     addFiles(files) {
       if (this.stateless) {
