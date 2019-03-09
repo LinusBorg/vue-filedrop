@@ -1,6 +1,6 @@
 # [WIP] vue-filedrop
 
-<-- markdownlint-disable MD033 MD025-->
+<!-- markdownlint-disable MD033 MD025-->
 
 ## What this is
 
@@ -108,6 +108,7 @@ export default {
   ```
 
 </details>
+
 ## Browser
 
 <details>
@@ -127,8 +128,7 @@ In the browser, the plugin will automatically register the components globally
 ## Development
 
 <details>
-
-<summary>Click here to see information for constributors</summary>
+  <summary>Click here to see information for constributors</summary>
 
 ### Project setup
 
