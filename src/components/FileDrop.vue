@@ -40,7 +40,6 @@ const propsToProvide = [
 
 const Provide = ReactiveProvideMixin({
   name: PROVIDE_KEY,
-  inheritAs: 'fileUploaderProps', // to inherit from FileUploader
   nameForComputed: 'fileDropProps',
   props: true,
   include: propsToProvide,
