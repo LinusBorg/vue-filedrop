@@ -49,15 +49,6 @@ export default Vue.extend({
   name: 'FileDrop',
   mixins: [Provide],
   props: {
-    multiple: {
-      type: Boolean,
-      default: false,
-    },
-    max: {
-      type: Number,
-      default: Infinity,
-      validator: max => max && +max >= 1,
-    },
     append: {
       type: Boolean,
     },
@@ -65,7 +56,16 @@ export default Vue.extend({
       type: Function,
       default: files => files,
     },
+    max: {
+      type: Number,
+      default: Infinity,
+      validator: max => max && +max >= 1,
+    },
     manualEmit: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
       type: Boolean,
       default: false,
     },
