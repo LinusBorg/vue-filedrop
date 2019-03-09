@@ -1,4 +1,6 @@
-# [WIP] vue-filedrop 
+# [WIP] vue-filedrop
+
+<-- markdownlint-disable MD033 MD025-->
 
 ## What this is
 
@@ -73,7 +75,7 @@ Alternativly, you can import components indivudally and register them (globally 
 import {
   Filedrop,
   FiledropUi
-} from 'vue-filedrop
+} from 'vue-filedrop'
 export default {
   components: {
     Filedrop,
@@ -83,7 +85,33 @@ export default {
 </script>
 ```
 
+### Importing from `/src` / Tree-shaking
+
+<details>
+  <summary>If yu want proper tree-shaking support, we recommend to import froms src (click for more)</summary>
+
+  ```javascript
+  import Vue from 'vue'
+  import Filedrop from 'vue-filedrop/src/index'
+  Vue.use(Filedrop)
+  ```
+
+  However, in most setups this requires some adjustment of the (webpack) build setup as content of `/node_modules` is usually ignored by babel-loader configs.
+
+  Vue CLI projects offer the [transpileDependencies](https://cli.vuejs.org/config/#transpiledependencies) to do this quick&easy:
+
+  ```javascript
+  // vue.config.js
+  module.exports = {
+    transpileDependencies: ['vue-filedrop']
+  }
+  ```
+
+</details>
 ## Browser
+
+<details>
+  <summary>Click here to see in-Browser install instructions</summary>
 
 ```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -91,6 +119,8 @@ export default {
 ```
 
 In the browser, the plugin will automatically register the components globally
+
+</details>
 
 ## Features
 
