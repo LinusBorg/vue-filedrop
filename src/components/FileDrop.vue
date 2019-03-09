@@ -5,7 +5,6 @@
       type="file"
       style="display: none"
       ref="input"
-      :accept="accept"
       :multiple="multiple"
       :max="max"
       :key="`vueFiledropInput_${inputKey}`"
@@ -61,9 +60,9 @@ export default Vue.extend({
     append: {
       type: Boolean,
     },
-    accept: {
-      type: String,
-      default: null,
+    filter: {
+      type: Function,
+      default: files => files,
     },
     manualEmit: {
       type: Boolean,
@@ -213,7 +212,7 @@ export default Vue.extend({
 
     // File Processing
     handleFiles(filesList) {
-      const files = [...filesList]
+      const files = this.filter([...filesList])
       if (!this.processFiles) {
         this.addFiles(files)
       } else {
