@@ -63,6 +63,24 @@ Vue.use(Filedrop, {
 })
 ```
 
+Alternativly, you can import components indivudally and register them (globally or locally):
+
+```html
+<-- e.g. in a .vue file: -->
+<script>
+import {
+  Filedrop,
+  FiledropUi
+} from 'vue-filedrop
+export default {
+  components: {
+    Filedrop,
+    FiledropUi,
+  }
+}
+</script>
+```
+
 ## Browser
 
 ```html
