@@ -1,10 +1,11 @@
 import Vue from 'vue'
-
 import FileDrop from './components/FileDrop'
 
 /* eslint-disable-next-line no-unused-vars */
-function install(_Vue, { FileDropName, FileUploaderName } = {}) {
-  Vue.component(FileDropName || 'FileDrop', FileDrop)
+function install(_Vue, { filedropName } = {}) {
+  if (filedropName !== false) {
+    Vue.component(filedropName || FileDrop.name, FileDrop)
+  }
 }
 
 // autoinstall for script-tag includes
