@@ -1,6 +1,8 @@
-# vue-filedrop
+# [WIP] vue-filedrop 
 
 ## What this is
+
+> this lib is not publsihed and not ready to be used yet.
 
 Vue Filedrop is a UI component that provides a dropzone for files, like this:
 
