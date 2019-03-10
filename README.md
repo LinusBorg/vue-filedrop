@@ -4,13 +4,15 @@
 
 ## What this is
 
-> this lib is not publsihed and not ready to be used yet.
+> this lib has not been published and not ready to be used yet.
 
 Vue Filedrop is a UI component that provides a dropzone for files, like this:
 
 -> **TODO: enter image here**
 
-It *also* is a renderless component that wraps all of the business logic (drag&drop event handling etc) and provides an easy to consume API via a scoped slot. This allows developers to build their own UI representation of a Filedrop easily and withut worrying about edge cases and such.
+It *also* is a renderless component that wraps all of the business logic (drag&drop event handling etc) and provides an easy to consume API via a scoped slot.
+
+This allows developers to build their own UI representation of a Filedrop easily and withut worrying about edge cases and such.
 
 ## Usage
 
@@ -34,7 +36,7 @@ It *also* is a renderless component that wraps all of the business logic (drag&d
     v-on:click="open"
     v-on="dragEvents"
   >
-  <p v-if="!file.length && !hovering">Drop files here or click to select</p>
+  <p v-if="!files.length && !hovering">Drop files here or click to select</p>
   <p v-elseif="hovering">You can drop the file(s) here </p>
   <ul v-else>
     <li v-for="file in files">{{file.name}}</li>
@@ -67,7 +69,7 @@ Vue.use(Filedrop, {
 })
 ```
 
-Alternativly, you can import components indivudally and register them (globally or locally):
+Alternatively, you can import components indivudally and register them (globally or locally):
 
 ```html
 <-- e.g. in a .vue file: -->
@@ -88,7 +90,7 @@ export default {
 ### Importing from `/src` / Tree-shaking
 
 <details>
-  <summary>If yu want proper tree-shaking support, we recommend to import froms src (click for more)</summary>
+  <summary>If you want proper tree-shaking support, we recommend to import froms src (click for more)</summary>
 
   ```javascript
   import Vue from 'vue'
@@ -124,6 +126,8 @@ In the browser, the plugin will automatically register the components globally
 </details>
 
 ## Features
+
+- [ ] todo
 
 ## Development
 
