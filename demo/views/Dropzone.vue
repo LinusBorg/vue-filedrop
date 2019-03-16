@@ -31,6 +31,7 @@ export default {
   max-width: 550px;
   min-height: 200px;
   display: flex;
+  flex-direction: column;
   margin: 0 auto;
 }
 </style>

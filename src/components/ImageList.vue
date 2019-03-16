@@ -1,7 +1,7 @@
 <template>
   <div class="vue-filedrop--imagepreview">
     <div
-      v-for="(file, idx) in filedrop.files"
+      v-for="(file, idx) in images"
       :key="`${file.name}_${file.size}`"
       class="vue-filedrop--image-container"
       :style="widthStyle"
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { PROVIDE_KEY } from '../utils'
+import { PROVIDE_KEY, processFiles } from '../utils'
 
 export default {
   name: 'ImageList',
@@ -45,6 +45,15 @@ export default {
       default: 1,
     },
   },
+  data: () => ({
+    images: [],
+  }),
+  watch: {
+    'filedrop.files': {
+      immediate: true,
+      handler: 'handleFiles',
+    },
+  },
   computed: {
     widthStyle() {
       return `width: ${this.width}px`
@@ -56,6 +65,12 @@ export default {
   methods: {
     handleClick(idx) {
       this.$emit('image-click', idx, this.filedrop.files[idx])
+    },
+    handleFiles(files) {
+      if (!files.length) return
+      processFiles(files, 'DataURL').then(images => {
+        this.images = images
+      })
     },
   },
 }

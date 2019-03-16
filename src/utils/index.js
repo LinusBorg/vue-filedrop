@@ -12,7 +12,7 @@ export function validateReadAs(v) {
 }
 
 export function processFiles(files, readAs = 'BinaryString') {
-  if (validateReadAs(readAs)) {
+  if (!validateReadAs(readAs)) {
     throw new Error(`[vue-filedrop]: ${readAs} is not a valid FileReader mode.
   Expected one of ['ArrayBuffer', 'BinaryString', 'DataURL', 'Text']
     `)

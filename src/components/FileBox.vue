@@ -53,7 +53,7 @@ $padding: 15px;
   margin: 1rem;
   display: flex;
   justify-content: center;
-  // align-items: center;
+  align-items: center;
   display: flex;
   flex: 1 1 auto;
   border: 1px solid #ccc;
