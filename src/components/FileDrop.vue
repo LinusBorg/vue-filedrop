@@ -28,6 +28,8 @@ const propsToProvide = [
   'dragging',
   'processing',
   'maxExceeded',
+  // Props
+  'disabled',
   // computed
   'dragEvents',
   'hasFiles',
