@@ -146,6 +146,7 @@ describe('The FileDrop component', () => {
 
     await tick()
 
+    expect(wrapper.vm.files.length).toBe(1)
     expect(cb).toHaveBeenCalledWith(expect.arrayContaining([file]))
 
     cb.mockClear()
@@ -187,18 +188,23 @@ describe('The FileDrop component', () => {
     await tick()
 
     const props = lastCallArgs(fn)
-    expect(props.maxExceeded).toBe(true)
+    expect(props.maxExceeded).toBe(1)
     expect(props.files.length).toBe(0)
 
     spys.unwatch()
   })
 
-  test('allows only one file to be drop with `multiple` not set', async () => {
+  test('allows only one file to be dropped when max is set to 1', async () => {
     const spys = mockConsole()
-    const { wrapper } = createWrapper()
+    const { wrapper } = createWrapper({
+      propsData: {
+        max: 1,
+      },
+    })
 
     const file = createFile()
     const file2 = createFile()
+
     wrapper.vm.onFileDrop({
       dataTransfer: {
         files: [file, file2],
@@ -206,6 +212,17 @@ describe('The FileDrop component', () => {
     })
 
     expect(wrapper.vm.files.length).toBe(0)
+    expect(wrapper.vm.maxExceeded).toBe(1)
+
+    wrapper.vm.onFileDrop({
+      dataTransfer: {
+        files: [file],
+      },
+    })
+
+    expect(wrapper.vm.files.length).toBe(1)
+    expect(wrapper.vm.maxExceeded).toBe(false)
+
     spys.unwatch()
   })
 

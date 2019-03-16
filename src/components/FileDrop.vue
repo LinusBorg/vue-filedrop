@@ -26,7 +26,6 @@ const propsToProvide = [
   'files',
   'hovering',
   'dragging',
-  'processing',
   'maxExceeded',
   // Props
   'disabled',
@@ -62,10 +61,6 @@ export default Vue.extend({
       default: Infinity,
       validator: max => max && +max >= 1,
     },
-    processor: {
-      type: Function,
-      default: files => Promise.resolve(files),
-    },
     stateless: {
       type: Boolean,
     },
@@ -95,7 +90,7 @@ export default Vue.extend({
     },
     maxExceeded() {
       const diff = this.rawFiles.length - this.max
-      return diff > 0
+      return diff > 0 ? diff : false
     },
   },
 
@@ -114,12 +109,7 @@ export default Vue.extend({
   },
 
   watch: {
-    files: {
-      deep: true,
-      handler(files) {
-        this.$emit('change', files.slice())
-      },
-    },
+    files: 'emit',
   },
 
   methods: {
@@ -192,33 +182,16 @@ export default Vue.extend({
     // File Processing
     handleFiles(filesList) {
       this.rawFiles = [...filesList]
-      if (this.maxExceeded) return
-
+      if (this.maxExceeded) return Promise.reject()
       let files = this.filter(this.rawFiles)
-
-      this.processing = true
-      this.processor(files)
-        .then(files => {
-          this.processing = false
-          this.addFiles(files)
-        })
-        .catch(error => {
-          console.error(
-            '[vue-component-filedrop] An error occured while processing the file(s)',
-            error
-          )
-          return error
-        })
-    },
-    addFiles(files) {
       if (this.stateless) {
-        this.emit()
+        this.emit(files)
       } else {
         this.files = files
       }
     },
     emit(files = this.files) {
-      this.$emit('change', files.splice())
+      this.$emit('change', files.slice())
     },
     remove(idx) {
       this.$nextTick(() => {
