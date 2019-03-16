@@ -167,7 +167,6 @@ describe('The FileDrop component', () => {
     const spys = mockConsole()
     const { wrapper, fn } = createWrapper({
       propsData: {
-        multiple: true,
         max: 2,
       },
     })
@@ -178,23 +177,18 @@ describe('The FileDrop component', () => {
 
     const file = createFile()
     const file2 = createFile()
+    const file3 = createFile()
     wrapper.vm.onFileDrop({
       dataTransfer: {
-        files: [file, file2],
-      },
-    })
-
-    wrapper.vm.onFileDrop({
-      dataTransfer: {
-        files: [createFile()],
+        files: [file, file2, file3],
       },
     })
 
     await tick()
 
     const props = lastCallArgs(fn)
-    expect(props.hasFiles).toBe(true)
-    expect(props.files.length).toBe(2)
+    expect(props.maxExceeded).toBe(true)
+    expect(props.files.length).toBe(0)
 
     spys.unwatch()
   })

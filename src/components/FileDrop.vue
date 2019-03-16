@@ -50,9 +50,6 @@ export default Vue.extend({
   name: 'FileDrop',
   mixins: [Provide],
   props: {
-    append: {
-      type: Boolean,
-    },
     disabled: {
       type: Boolean,
     },
@@ -64,14 +61,6 @@ export default Vue.extend({
       type: Number,
       default: Infinity,
       validator: max => max && +max >= 1,
-    },
-    manualEmit: {
-      type: Boolean,
-      default: false,
-    },
-    multiple: {
-      type: Boolean,
-      default: false,
     },
     processor: {
       type: Function,
@@ -106,7 +95,7 @@ export default Vue.extend({
     },
     maxExceeded() {
       const diff = this.rawFiles.length - this.max
-      return diff > 0 ? diff : 0
+      return diff > 0
     },
   },
 
@@ -128,9 +117,7 @@ export default Vue.extend({
     files: {
       deep: true,
       handler(files) {
-        if (!this.manualEmit && !this.stateless) {
-          this.$emit('change', files.slice())
-        }
+        this.$emit('change', files.slice())
       },
     },
   },
@@ -203,30 +190,31 @@ export default Vue.extend({
     },
 
     // File Processing
-    async handleFiles(filesList) {
+    handleFiles(filesList) {
       this.rawFiles = [...filesList]
+      if (this.maxExceeded) return
+
       let files = this.filter(this.rawFiles)
 
       this.processing = true
-      files = await this.processor(files).catch(error => {
-        console.error(
-          '[vue-component-filedrop] An error occured while processing the file(s)',
-          error
-        )
-        return error
-      })
-      this.processing = false
-      this.addFiles(files)
+      this.processor(files)
+        .then(files => {
+          this.processing = false
+          this.addFiles(files)
+        })
+        .catch(error => {
+          console.error(
+            '[vue-component-filedrop] An error occured while processing the file(s)',
+            error
+          )
+          return error
+        })
     },
     addFiles(files) {
       if (this.stateless) {
         this.emit()
       } else {
-        if (this.append) {
-          this.files.push(...files)
-        } else {
-          this.files = files
-        }
+        this.files = files
       }
     },
     emit(files = this.files) {
