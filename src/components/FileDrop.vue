@@ -51,6 +51,9 @@ export default Vue.extend({
     append: {
       type: Boolean,
     },
+    disabled: {
+      type: Boolean,
+    },
     filter: {
       type: Function,
       default: files => files,
@@ -107,6 +110,7 @@ export default Vue.extend({
 
   created() {
     this.$_globalEventHandler = v => {
+      if (this.disabled) return
       this.dragging = v
       if (this.hovering) {
         this.hovering = false
@@ -134,9 +138,11 @@ export default Vue.extend({
      * Drag&Drop handling
      */
     dragover(e) {
+      if (this.disabled) return
       e.preventDefault()
     },
     dragenter(e) {
+      if (this.disabled) return
       if (this.$_first) {
         this.$_second = true
       } else {
@@ -146,6 +152,7 @@ export default Vue.extend({
       }
     },
     dragleave(e) {
+      if (this.disabled) return
       if (this.$_second) {
         this.$_second = false
       } else if (this.$_first) {
@@ -158,6 +165,7 @@ export default Vue.extend({
       }
     },
     drop(e) {
+      if (this.disabled) return
       e.preventDefault()
       this.onFileDrop(e)
     },
@@ -166,11 +174,11 @@ export default Vue.extend({
      * Controlling the File Input
      */
     open() {
+      if (this.disabled) return
       const { input } = this.$refs
       input && input.click()
     },
     clear() {
-      console.log('clear')
       this.inputKey++ // forces re-creation of input to clear it on all browsers
       this.$nextTick(() => {
         this.files = []
