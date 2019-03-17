@@ -9,6 +9,9 @@
     "build:demo": "vue-cli-service build demo/main",
     "build:lib:core": "vue-cli-service build --target lib --name VueFiledrop --dest dist/core src/index.js",
     "build:lib:full": "vue-cli-service build --target lib --name VueFiledrop src/full.js",
+    "build:lib:wc": "rimraf node_modules/.cache && vue-cli-service build --target wc --no-clean --dest dist/wc src/full.js",
+    "sb:build": "vue-cli-service storybook:build -c config/storybook",
+    "sb:serve": "vue-cli-service storybook:serve -p 6006 -c config/storybook",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -16,6 +19,10 @@
     "vue-reactive-provide": "^0.2.2"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.0.0",
+    "@storybook/addon-knobs": "^5.0.0",
+    "@storybook/addon-links": "^5.0.0",
+    "@storybook/addon-notes": "^5.0.0",
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-e2e-cypress": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
@@ -33,6 +40,7 @@
     "prettier-eslint": "^8.8.2",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
+    "vue-cli-plugin-storybook": "^0.6.1",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.17"
   },
